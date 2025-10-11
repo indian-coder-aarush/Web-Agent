@@ -1,4 +1,5 @@
 import os
+import subprocess
 
 def read_file(filepath):
     try:
@@ -15,4 +16,8 @@ def write_file(filepath, content):
         return "File Path you requested was not found."
 
 def run_command(command):
-    os.system(command)
+    try:
+        out = check_output(command, text=True)
+        return out
+    except CalledProcessError as e:
+        return "Command failed: " + e.returncode + " " + e.output
