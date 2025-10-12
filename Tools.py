@@ -10,7 +10,7 @@ def read_file(filepath):
 
 def write_file(filepath, content):
     try:
-        with open(filepath, 'w') as f:
+        with open(filepath, 'w', encoding = 'utf-8') as f:
             f.write(content)
     except FileNotFoundError:
         return "File Path you requested was not found."

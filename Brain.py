@@ -26,9 +26,20 @@ messages = [
                                   "run_command: run a terminal command"
                                   "Terminate: once the app is created you can terminate yourself."
                                   "Remember that you dont have to put anything extra like explainations, md files. "
+                                  "Always return valid JSON:"
+                                    "- Use double quotes for keys and string values"
+                                    "- Escape newlines and quotes inside content"
+                                    "- Example:"
+                                    "{"
+                                        '"tool_used": "write_file",'
+                                        '"file_address": "script.js",'
+                                        '"content": "document.addEventListener(\"DOMContentLoaded\", () => { ... });"'
+                                    "}"
                                   "give only the format i mentioned to u amd mo things like ```json also. in content while writing code "
-                                  "please make sure you dont write strings with opening and closing back tics"},
-    {"role": "user", "content": "Make a todo app using HTML, CSS, and JavaScript in C:/Users/rohit/OneDrive/Documents/GitHub/Web-Agent"}
+                                  "remember to terminate after your project is done and after writing every line of code "
+                                  "go to a newline"
+                            },
+    {"role": "user", "content": "Make a todo app using react.js in C:/Users/rohit/OneDrive/Documents/GitHub/Web-Agent"}
 ]
 
 # Convert dicts into a single prompt
@@ -48,7 +59,7 @@ while not terminate:
     model_response.candidates[0].content.parts[0].text
     response = ast.literal_eval(response_text)
     messages.append(response)
-    if response["tool_used"] == "terminate":
+    if response["tool_used"] == "Terminate":
         terminate = True
     elif response["tool_used"] == "read_file":
         file_content = Tools.read_file(response["file_address"])
