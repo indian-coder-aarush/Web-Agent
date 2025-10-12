@@ -26,7 +26,8 @@ messages = [
                                   "run_command: run a terminal command"
                                   "Terminate: once the app is created you can terminate yourself."
                                   "Remember that you dont have to put anything extra like explainations, md files. "
-                                  "give only the format i mentioned to u amd mo things like ```json also"},
+                                  "give only the format i mentioned to u amd mo things like ```json also. in content while writing code "
+                                  "please make sure you dont write strings with opening and closing back tics"},
     {"role": "user", "content": "Make a todo app using HTML, CSS, and JavaScript in C:/Users/rohit/OneDrive/Documents/GitHub/Web-Agent"}
 ]
 
@@ -46,7 +47,7 @@ while not terminate:
     response_text = model_response.text if hasattr(model_response, "text") else \
     model_response.candidates[0].content.parts[0].text
     response = ast.literal_eval(response_text)
-    print(response["tool_used"])
+    messages.append(response)
     if response["tool_used"] == "terminate":
         terminate = True
     elif response["tool_used"] == "read_file":
@@ -61,4 +62,3 @@ while not terminate:
         Tools.write_file(response["file_address"],response["content"])
         print(response["content"])
     model_response = model.generate_content(dicts_to_prompt(messages))
-
