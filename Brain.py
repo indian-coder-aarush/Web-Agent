@@ -35,11 +35,13 @@ messages = [
                                         '"file_address": "script.js",'
                                         '"content": "document.addEventListener(\"DOMContentLoaded\", () => { ... });"'
                                     "}"
+                                    "- NEVER write files repeatedly once they exist and are complete.\n"
+                                    "- If you are unsure or have no next step, TERMINATE."
                                   "give only the format i mentioned to u amd mo things like ```json also. in content while writing code "
                                   "remember to terminate after your project is done and after writing every line of code "
                                   "go to a newline"
                             },
-    {"role": "user", "content": "Make a todo app using react.js in C:/Users/rohit/OneDrive/Documents/GitHub/Web-Agent"}
+    {"role": "user", "content": "Make a calculator using HTML, CSS and javascript in C:/Users/rohit/OneDrive/Documents/GitHub/Web-Agent"}
 ]
 
 # Convert dicts into a single prompt
@@ -59,6 +61,7 @@ while not terminate:
     model_response.candidates[0].content.parts[0].text
     response = ast.literal_eval(response_text)
     messages.append(response)
+    print(response)
     if response["tool_used"] == "Terminate":
         terminate = True
     elif response["tool_used"] == "read_file":
@@ -67,9 +70,13 @@ while not terminate:
     elif response["tool_used"] == "run_command":
         command = response["content"]
         output = Tools.safe_run_command(command)
-        messages.append({"role": response["file_address"], "content": output})
+        messages.append({"role": "terminal", "content": output})
         print(response["content"])
+        print(output)
     elif response["tool_used"] == "write_file":
         Tools.write_file(response["file_address"],response["content"])
-        print(response["content"])
+        messages.append({
+            "role": "system",
+            "content": f"File '{response['file_address']}' has been successfully written. Do not rewrite it again unless there is a major error. Check if other files are needed or terminate."
+        })
     model_response = model.generate_content(dicts_to_prompt(messages))

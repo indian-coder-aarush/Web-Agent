@@ -22,7 +22,7 @@ def run_command(command):
             shell=True,
             capture_output=True,
             text=True,
-            timeout=30
+            timeout=180
         )
 
         if result.returncode == 0:
