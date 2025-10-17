@@ -1,4 +1,3 @@
-import './App.css';
 import react, {useState} from 'react';
 
 function App() {
@@ -15,7 +14,7 @@ function App() {
     return (
         <div className = "prompt-input-container">
             <input onChange={prompt_change} value={Prompt} className="prompt-input"/>
-            <button onClick={button_click} className = "button">↑</button>
+            <button onClick={button_click} className = "submit-button">↑</button>
         </div>
 )
 }

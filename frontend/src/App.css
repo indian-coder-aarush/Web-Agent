@@ -1,10 +1,27 @@
-.button{
-    border-radius: 10px;
+.submit-button{
+    outline:none;
+    border:none;
+    border-radius: 25px;
+    background-color: #616161;
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.submit-button:hover{
+    background-color: #555555;
 }
 
 .prompt-input{
     border: none;
     background-color: inherit;
+    width: calc(100% - 50px);
 }
 
 .prompt-input:focus{
@@ -14,8 +31,19 @@
 }
 
 .prompt-input-container{
+    position: absolute;
+    width: 500px;
+    bottom: 20px;
+    left: 50%;
     background-color: #444444;
     padding: 10px;
     display: inline-block;
     border-radius: 20px;
+    transform: translateX(-50%);
+}
+
+body {
+    background: radial-gradient(circle at center, #1a1a1a 0%, #000 80%);
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
 }
