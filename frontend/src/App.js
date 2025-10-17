@@ -14,6 +14,7 @@ function App() {
     return (
         <div className = "prompt-input-container">
             <input onChange={prompt_change} value={Prompt} className="prompt-input"/>
+            <br />
             <button onClick={button_click} className = "submit-button">↑</button>
         </div>
 )
