@@ -13,11 +13,11 @@ function App() {
     }
 
     return (
-        <>
-            <input onChange={prompt_change} value={Prompt}/>
-            <button onClick={button_click}>submit</button>
-        </>
-    )
+        <div className = "prompt-input-container">
+            <input onChange={prompt_change} value={Prompt} className="prompt-input"/>
+            <button onClick={button_click} className = "button">↑</button>
+        </div>
+)
 }
 
 export default App;
