@@ -18,7 +18,7 @@ messages = [
                                   "'file_address': '<optional for run_command, but neccessary if you want to specify file address you want to use.>'"
                                   "'content': '<the code or command>',"
                                   "'reason': '<why did you do that step>',"
-                                  "'memory_add': '<what to add to the memory that can help you accesses it later>'"
+                                  "'memory': '<what to add to the memory that can help you accesses it later>'"
                                   "}"
                                   "The tools that are available to you are "
                                   "write_file: lets you rewrite the whole file or write something in it if it is blank"
@@ -35,8 +35,10 @@ messages = [
                                         '"file_address": "script.js",'
                                         '"content": "document.addEventListener(\"DOMContentLoaded\", () => { ... });"'
                                     "}"
-                                    "- NEVER write files repeatedly once they exist and are complete.\n"
+                                    "- NEVER write files repeatedly once they exist and are complete. "
+                                  "You can see the completed files in the memory\n"
                                     "- If you are unsure or have no next step, TERMINATE."
+                                    "- If the user asks to edit anything, first READ the file then edit it."
                                   "give only the format i mentioned to u amd mo things like ```json also. in content while writing code "
                                   "remember to terminate after your project is done and after writing every line of code "
                                   "go to a newline"
@@ -61,7 +63,7 @@ while not terminate:
     model_response.candidates[0].content.parts[0].text
     response = ast.literal_eval(response_text)
     messages.append(response)
-    print(response)
+    print(messages)
     if response["tool_used"] == "Terminate":
         terminate = True
     elif response["tool_used"] == "read_file":
@@ -71,10 +73,8 @@ while not terminate:
         command = response["content"]
         output = Tools.safe_run_command(command)
         messages.append({"role": "terminal", "content": output})
-        print(response["content"])
-        print(output)
     elif response["tool_used"] == "write_file":
-        Tools.write_file(response["file_address"],response["content"])
+        Tools.write_file(response["file_address"], response["content"])
         messages.append({
             "role": "system",
             "content": f"File '{response['file_address']}' has been successfully written. Do not rewrite it again unless there is a major error. Check if other files are needed or terminate."
