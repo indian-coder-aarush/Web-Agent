@@ -1,5 +1,4 @@
-import ast
-
+import Brain
 import flask
 
 app = flask.Flask(__name__)
@@ -7,7 +6,8 @@ app = flask.Flask(__name__)
 @app.route("/api/receive-prompt", methods=["POST"])
 def receive_prompt():
     data = flask.request.get_json()
-    text = data.get("prompt",'')
+    prompt = data.get("prompt",'')
+    Brain.execute(prompt)
     return ''
 
 @app.route("/api/give-response")

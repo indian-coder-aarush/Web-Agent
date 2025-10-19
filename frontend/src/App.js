@@ -7,7 +7,16 @@ function App() {
         setPrompt(e.target.value);
     }
 
+    async function send_prompt(){
+        await fetch("http://127.0.0.1:1234///api/receive-prompt", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text: Prompt })
+        });
+    }
+
     function button_click(){
+        send_prompt();
         setPrompt('');
     }
 

@@ -43,7 +43,6 @@ messages = [
                                   "remember to terminate after your project is done and after writing every line of code "
                                   "go to a newline"
                             },
-    {"role": "user", "content": "Make a calculator using HTML, CSS and javascript in C:/Users/rohit/OneDrive/Documents/GitHub/Web-Agent"}
 ]
 
 # Convert dicts into a single prompt
@@ -54,29 +53,29 @@ def dicts_to_prompt(messages):
         prompt += f"{role}: {msg['content']}\n"
     return prompt
 
-terminate = False
-
-model_response = model.generate_content(dicts_to_prompt(messages))
-
-while not terminate:
-    response_text = model_response.text if hasattr(model_response, "text") else \
-    model_response.candidates[0].content.parts[0].text
-    response = ast.literal_eval(response_text)
-    messages.append(response)
-    print(messages)
-    if response["tool_used"] == "Terminate":
-        terminate = True
-    elif response["tool_used"] == "read_file":
-        file_content = Tools.read_file(response["file_address"])
-        messages.append({"role": response["file_address"], "content": file_content})
-    elif response["tool_used"] == "run_command":
-        command = response["content"]
-        output = Tools.safe_run_command(command)
-        messages.append({"role": "terminal", "content": output})
-    elif response["tool_used"] == "write_file":
-        Tools.write_file(response["file_address"], response["content"])
-        messages.append({
-            "role": "system",
-            "content": f"File '{response['file_address']}' has been successfully written. Do not rewrite it again unless there is a major error. Check if other files are needed or terminate."
-        })
+def execute(prompt):
+    terminate = False
+    messages.append({"role":"user", "content": prompt})
     model_response = model.generate_content(dicts_to_prompt(messages))
+    while not terminate:
+        response_text = model_response.text if hasattr(model_response, "text") else \
+        model_response.candidates[0].content.parts[0].text
+        response = ast.literal_eval(response_text)
+        messages.append(response)
+        print(messages)
+        if response["tool_used"] == "Terminate":
+            terminate = True
+        elif response["tool_used"] == "read_file":
+            file_content = Tools.read_file(response["file_address"])
+            messages.append({"role": response["file_address"], "content": file_content})
+        elif response["tool_used"] == "run_command":
+            command = response["content"]
+            output = Tools.safe_run_command(command)
+            messages.append({"role": "terminal", "content": output})
+        elif response["tool_used"] == "write_file":
+            Tools.write_file(response["file_address"], response["content"])
+            messages.append({
+                "role": "system",
+                "content": f"File '{response['file_address']}' has been successfully written. Do not rewrite it again unless there is a major error. Check if other files are needed or terminate."
+            })
+        model_response = model.generate_content(dicts_to_prompt(messages))
