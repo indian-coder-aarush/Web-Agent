@@ -11,7 +11,7 @@ function App() {
         await fetch("http://127.0.0.1:1234///api/receive-prompt", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text: Prompt })
+            body: JSON.stringify({ prompt: Prompt })
         });
     }
 

@@ -1,7 +1,9 @@
 import Brain
 import flask
+import flask_cors
 
 app = flask.Flask(__name__)
+flask_cors.CORS(app)
 
 @app.route("/api/receive-prompt", methods=["POST"])
 def receive_prompt():
