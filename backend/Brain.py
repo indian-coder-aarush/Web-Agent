@@ -65,15 +65,22 @@ def execute(prompt):
         messages.append(response)
         print(messages)
         if response["tool_used"] == "Terminate":
+            send_to_frontend("Terminate",{})
             terminate = True
         elif response["tool_used"] == "read_file":
+            send_to_frontend("reading file",{"content":response["file_adress"],
+                                             "reason":response["reason"]})
             file_content = Tools.read_file(response["file_address"])
             messages.append({"role": response["file_address"], "content": file_content})
         elif response["tool_used"] == "run_command":
+            send_to_frontend("running command", {"content": response["content"],
+                                              "reason": response["reason"]})
             command = response["content"]
             output = Tools.safe_run_command(command)
             messages.append({"role": "terminal", "content": output})
         elif response["tool_used"] == "write_file":
+            send_to_frontend("writing file", {"content": response["content"],
+                                                 "reason": response["reason"]})
             Tools.write_file(response["file_address"], response["content"])
             messages.append({
                 "role": "system",
