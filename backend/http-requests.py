@@ -1,12 +1,6 @@
+from flas
 import flask
-import flask_cors
-import flask_socketio
 import Brain
-
-app = flask.Flask(__name__)
-flask_cors.CORS(app)
-app.config['SECRET_KEY'] = 'secret!'
-socketio = flask_socketio.SocketIO(app, cors_allowed_origins="*")
 
 @app.route("/api/receive-prompt", methods=["POST"])
 def receive_prompt():

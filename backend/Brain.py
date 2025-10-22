@@ -3,6 +3,7 @@ import dotenv
 import google.generativeai as genai
 import ast
 import Tools
+from flask_app import send_to_frontend
 
 dotenv.load_dotenv()
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
