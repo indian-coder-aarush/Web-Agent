@@ -1,6 +1,12 @@
-import react, {useState} from 'react';
+import react, {useState, useEffect} from 'react';
+import io from 'socket.io-client';
 
 function App() {
+
+    //const socket = io('http://localhost:1234');
+
+    let messages = []
+
     const [Prompt,setPrompt] = useState('');
 
     function prompt_change(e){
@@ -16,16 +22,22 @@ function App() {
     }
 
     function button_click(){
+        messages.push({Role:"User", Message:Prompt})
         send_prompt();
         setPrompt('');
     }
 
     return (
-        <div className = "prompt-input-container">
-            <textarea onChange={prompt_change} value={Prompt} className="prompt-input"/>
-            <br />
-            <button onClick={button_click} className = "submit-button">↑</button>
-        </div>
+        <>
+            {messages.map((message) => {return (
+                <div className = {message.Role}>{message.Message}</div>
+            )})}
+            <div className = "prompt-input-container">
+                <textarea onChange={prompt_change} value={Prompt} className="prompt-input"/>
+                <br />
+                <button onClick={button_click} className = "submit-button">↑</button>
+            </div>
+        </>
 )
 }
 
