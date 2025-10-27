@@ -63,12 +63,17 @@ def execute(prompt):
         model_response.candidates[0].content.parts[0].text
         response = ast.literal_eval(response_text)
         messages.append(response)
-        print(messages)
         if response["tool_used"] == "Terminate":
             send_to_frontend("Terminate",{})
             terminate = True
             messages.append({'system':'Now run a command to show the website to the user.'})
-
+            model_response = model.generate_content(dicts_to_prompt(messages))
+            response_text = model_response.text if hasattr(model_response, "text") else \
+            model_response.candidates[0].content.parts[0].text
+            response = ast.literal_eval(response_text)
+            messages.append(response)
+            command = response["content"]
+            output = Tools.safe_run_command(command)
         elif response["tool_used"] == "read_file":
             send_to_frontend("reading file",{"content":response["file_adress"],
                                              "reason":response["reason"]})

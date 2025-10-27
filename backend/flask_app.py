@@ -20,7 +20,7 @@ def give_response():
     return flask.jsonify({"hello":"world"})
 
 def send_to_frontend(event,message):
-    socketio.emit(event,message,broadcast = True)
+    socketio.emit(event,message)
 
 if __name__ == "__main__":
     app.run(debug=True, port = 1234)
