@@ -67,6 +67,8 @@ def execute(prompt):
         if response["tool_used"] == "Terminate":
             send_to_frontend("Terminate",{})
             terminate = True
+            messages.append({'system':'Now run a command to show the website to the user.'})
+
         elif response["tool_used"] == "read_file":
             send_to_frontend("reading file",{"content":response["file_adress"],
                                              "reason":response["reason"]})
