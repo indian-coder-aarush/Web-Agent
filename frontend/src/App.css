@@ -55,3 +55,12 @@
 body{
     background-color: #202020;
 }
+
+.User{
+    background-color: #5a5a5a;
+    color: white;
+    border-radius: 10px;
+    position : absolute;
+    right: 30px;
+    transform: translateX(+50%);
+}
