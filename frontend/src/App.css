@@ -60,10 +60,8 @@ body{
     background-color: #353535;
     color: white;
     border-radius: 10px;
-    position : absolute;
-    right:1px;
-    margin: 5px;
-    transform: translateX(-50%);
+    margin-left: 800px;
+    margin-bottom: 20px;
     padding:10px;
     font-family: "Segoe UI","Roboto", sans-serif;
 }
