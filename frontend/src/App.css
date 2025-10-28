@@ -57,10 +57,13 @@ body{
 }
 
 .User{
-    background-color: #5a5a5a;
+    background-color: #353535;
     color: white;
     border-radius: 10px;
     position : absolute;
-    right: 30px;
-    transform: translateX(+50%);
+    right:1px;
+    margin: 5px;
+    transform: translateX(-50%);
+    padding:10px;
+    font-family: "Segoe UI","Roboto", sans-serif;
 }

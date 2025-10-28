@@ -5,7 +5,7 @@ function App() {
 
     //const socket = io('http://localhost:1234');
 
-    let messages = []
+    const [messages, setMessages] = useState([]);
 
     const [Prompt,setPrompt] = useState('');
 
@@ -22,7 +22,7 @@ function App() {
     }
 
     function button_click(){
-        messages.push({Role:"User", Message:Prompt})
+        setMessages(prev => [...prev,{Role:"User", Message:Prompt}]);
         send_prompt();
         setPrompt('');
     }
