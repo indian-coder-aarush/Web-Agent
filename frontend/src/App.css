@@ -65,3 +65,13 @@ body{
     padding:10px;
     font-family: "Segoe UI","Roboto", sans-serif;
 }
+
+.Agent{
+    background-color: #2a2a2a;
+    color: #e8e8e8;
+    border-radius: 10px;
+    margin-right: 800px;
+    margin-bottom: 20px;
+    padding:10px;
+    font-family: "Segoe UI","Roboto", sans-serif;
+}
