@@ -2,25 +2,34 @@ import flask
 import flask_cors
 import flask_socketio
 import Brain
+import time
 
 app = flask.Flask(__name__)
 flask_cors.CORS(app)
 app.config['SECRET_KEY'] = 'secret!'
-socketio = flask_socketio.SocketIO(app, cors_allowed_origins="*")
 
 @app.route("/api/receive-prompt", methods=["POST"])
 def receive_prompt():
     data = flask.request.get_json()
     prompt = data.get("prompt",'')
     Brain.execute(prompt)
-    return ''
+    return '', 200
 
 @app.route("/api/give-response")
 def give_response():
     return flask.jsonify({"hello":"world"})
 
-def send_to_frontend(event,message):
-    socketio.emit(event,message)
+@app.route("/api/send")
+def live():
+    def send():
+        index = 0
+        while True:
+            if index < len(Brain.AI_messages):
+                message = Brain.AI_messages[-1]
+                yield "data: "+message+"\n\n"
+                index += 1
+            time.sleep(1)
+    return flask.Response(send(), mimetype='text/event-stream')
 
 if __name__ == "__main__":
-    app.run(debug=True, port = 1234)
+    app.run(debug=True, port=1235)

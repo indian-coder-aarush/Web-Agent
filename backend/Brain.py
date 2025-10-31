@@ -3,14 +3,12 @@ import dotenv
 import google.generativeai as genai
 import ast
 import Tools
-from flask_app import send_to_frontend
 
 dotenv.load_dotenv()
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 model = genai.GenerativeModel("gemini-2.5-flash")
 
-# Your conversation as dicts
 messages = [
     {"role": "system", "content": "You are a code editor AI agent that makes frontends for apps."
                                   "You will reply in the following format only."
@@ -42,9 +40,11 @@ messages = [
                                     "- If the user asks to edit anything, first READ the file then edit it."
                                   "give only the format i mentioned to u amd mo things like ```json also. in content while writing code "
                                   "remember to terminate after your project is done and after writing every line of code "
-                                  "go to a newline"
+                                  "go to a newline. Also DONT send two responses at once"
                             },
 ]
+
+AI_messages = []
 
 # Convert dicts into a single prompt
 def dicts_to_prompt(messages):
@@ -54,18 +54,17 @@ def dicts_to_prompt(messages):
         prompt += f"{role}: {msg['content']}\n"
     return prompt
 
+
 def execute(prompt):
     terminate = False
     messages.append({"role":"user", "content": prompt})
     model_response = model.generate_content(dicts_to_prompt(messages))
     while not terminate:
-        print(messages)
         response_text = model_response.text if hasattr(model_response, "text") else \
         model_response.candidates[0].content.parts[0].text
         response = ast.literal_eval(response_text)
         messages.append(response)
         if response["tool_used"] == "Terminate":
-            send_to_frontend("Terminate",{})
             terminate = True
             messages.append({'role':'system','content':'Now run a command to show the website to the user.'})
             model_response = model.generate_content(dicts_to_prompt(messages))
@@ -75,21 +74,21 @@ def execute(prompt):
             messages.append(response)
             command = response["content"]
             output = Tools.safe_run_command(command)
-            print(output)
+            break
         elif response["tool_used"] == "read_file":
-            send_to_frontend("reading file",{"content":response["file_adress"],
-                                             "reason":response["reason"]})
+            AI_messages.append("Reading File "+ response["file_address"]
+                                             +"\ndata: reason: "+response["reason"])
             file_content = Tools.read_file(response["file_address"])
             messages.append({"role": response["file_address"], "content": file_content})
         elif response["tool_used"] == "run_command":
-            send_to_frontend("running command", {"content": response["content"],
-                                              "reason": response["reason"]})
+            AI_messages.append("running command "+ response["content"] +
+                                              "\ndata: reason: " + response["reason"])
             command = response["content"]
             output = Tools.safe_run_command(command)
             messages.append({"role": "terminal", "content": output})
         elif response["tool_used"] == "write_file":
-            send_to_frontend("writing file", {"content": response["content"],
-                                                 "reason": response["reason"]})
+            AI_messages.append("writing code in file " + response["file_address"] +
+                                                 "\ndata: reason: "  + response["reason"] )
             Tools.write_file(response["file_address"], response["content"])
             messages.append({
                 "role": "system",
