@@ -54,6 +54,13 @@ def dicts_to_prompt(messages):
         prompt += f"{role}: {msg['content']}\n"
     return prompt
 
+def isJSON(response):
+    try:
+        resp = ast.literal_eval(response)
+        return isinstance(resp, dict)
+    except:
+        return False
+
 
 def execute(prompt):
     terminate = False
@@ -62,6 +69,10 @@ def execute(prompt):
     while not terminate:
         response_text = model_response.text if hasattr(model_response, "text") else \
         model_response.candidates[0].content.parts[0].text
+        while not isJSON(response_text):
+            model_response = model.generate_content(dicts_to_prompt(messages))
+            response_text = model_response.text if hasattr(model_response, 'text') else \
+            model_response.condidates[0].content.parts[0].text
         response = ast.literal_eval(response_text)
         messages.append(response)
         if response["tool_used"] == "Terminate":
