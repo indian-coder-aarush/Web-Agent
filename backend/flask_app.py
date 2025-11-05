@@ -1,6 +1,5 @@
 import flask
 import flask_cors
-import flask_socketio
 import Brain
 import time
 

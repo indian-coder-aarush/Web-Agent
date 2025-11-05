@@ -39,7 +39,7 @@
 }
 
 .prompt-input-container {
-    position: absolute;
+    position: fixed;
     width: 500px;
     bottom: 40px;
     left: 50%;
@@ -74,4 +74,8 @@ body{
     margin-bottom: 20px;
     padding:10px;
     font-family: "Segoe UI","Roboto", sans-serif;
+}
+
+.messages{
+    padding-bottom: 180px;
 }

@@ -44,9 +44,12 @@ function App() {
 
     return (
         <>
+            <div className = 'messages'>
             {messages.map((message) => {return (
                 <div className = {message.Role}>{message.Message}</div>
             )})}
+            </div>
+            <br/>
             <div className = "prompt-input-container">
                 <textarea onChange={prompt_change} value={Prompt} className="prompt-input"/>
                 <br />

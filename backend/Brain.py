@@ -85,6 +85,7 @@ def execute(prompt):
             messages.append(response)
             command = response["content"]
             output = Tools.safe_run_command(command)
+            print(messages[-1])
             break
         elif response["tool_used"] == "read_file":
             AI_messages.append("Reading File "+ response["file_address"]
