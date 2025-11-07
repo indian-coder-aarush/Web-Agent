@@ -3,9 +3,13 @@ import flask_cors
 import Brain
 import time
 
-app = flask.Flask(__name__)
+app = flask.Flask(__name__,static_folder="home/aarush-shirpewar/Documents/GitHub/Web-Agent/frontend/build", static_url_path="/")
 flask_cors.CORS(app)
 app.config['SECRET_KEY'] = 'secret!'
+
+@app.route("/")
+def index():
+    return flask.send_from_directory(app.static_folder, "index.html")
 
 @app.route("/api/receive-prompt", methods=["POST"])
 def receive_prompt():
