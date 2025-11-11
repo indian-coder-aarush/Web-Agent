@@ -81,6 +81,10 @@ def execute(prompt):
             model_response = model.generate_content(dicts_to_prompt(messages))
             response_text = model_response.text if hasattr(model_response, "text") else \
             model_response.candidates[0].content.parts[0].text
+            while not isJSON(response_text):
+                model_response = model.generate_content(dicts_to_prompt(messages))
+                response_text = model_response.text if hasattr(model_response, 'text') else \
+                model_response.condidates[0].content.parts[0].text
             response = ast.literal_eval(response_text)
             messages.append(response)
             command = response["content"]

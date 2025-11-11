@@ -3,7 +3,7 @@ import flask_cors
 import Brain
 import time
 
-app = flask.Flask(__name__,static_folder="home/aarush-shirpewar/Documents/GitHub/Web-Agent/frontend/build", static_url_path="/")
+app = flask.Flask(__name__,static_folder="../frontend/build", static_url_path="/")
 flask_cors.CORS(app)
 app.config['SECRET_KEY'] = 'secret!'
 
