@@ -3,11 +3,19 @@ import react, {useState, useEffect} from 'react';
 function App() {
 
     const [messages, setMessages] = useState([]);
-
+    const [choice, setChoice] = useState('');
     const [Prompt,setPrompt] = useState('');
 
     function prompt_change(e){
         setPrompt(e.target.value);
+    }
+
+    function react_choice(){
+        setChoice('React.js');
+    }
+
+    function html_choice(){
+        setChoice('HTML, CSS, JacaScript');
     }
 
     useEffect(() => {
@@ -53,6 +61,14 @@ function App() {
             <div className = "prompt-input-container">
                 <textarea onChange={prompt_change} value={Prompt} className="prompt-input"/>
                 <br />
+                <button onClick = {react_choice}
+                        className = {choice === 'React.js' ? 'choice active' : 'choice' }>
+                    React.js
+                </button>
+                <button onClick = {html_choice}
+                        className = {choice === 'HTML, CSS, JacaScript' ? 'choice active' : 'choice' }>
+                    HTML, CSS, JavaScript
+                </button>
                 <button onClick={button_click} className = "submit-button">↑</button>
             </div>
         </>
