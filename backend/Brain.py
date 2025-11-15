@@ -14,7 +14,8 @@ messages = [
                                   "You will reply in the following format only."
                                   "{"
                                   "'tool_used' : '<the tool you will use>',"
-                                  "'file_address': '<optional for run_command, but neccessary if you want to specify file address you want to use.>'"
+                                  "'file_address': '<optional for run_command, but neccessary if you want to specify file address you want to use."
+                                  "also remember that all files you want to try to access are in the folder /. so you can access by saying /index.html, etc>'"
                                   "'content': '<the code or command>',"
                                   "'reason': '<why did you do that step>',"
                                   "'memory': '<what to add to the memory that can help you accesses it later>'"
@@ -31,7 +32,7 @@ messages = [
                                     "- Example:"
                                     "{"
                                         '"tool_used": "write_file",'
-                                        '"file_address": "script.js",'
+                                        '"file_address": "\script.js",'
                                         '"content": "document.addEventListener(\"DOMContentLoaded\", () => { ... });"'
                                     "}"
                                     "- NEVER write files repeatedly once they exist and are complete. "

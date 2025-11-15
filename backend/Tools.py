@@ -31,7 +31,7 @@ def run_command(command):
             cwd = base,
             capture_output=True,
             text=True,
-            timeout=180
+            timeout=300
         )
 
         if result.returncode == 0:
@@ -51,5 +51,6 @@ def safe_run_command(command):
     return run_command(command)
 
 def make_file(file_name):
+    os.makedirs(os.path.dirname(full_path(file_name)), exist_ok=True)
     with open(full_path(file_name), "w") as f:
         f.write("")
