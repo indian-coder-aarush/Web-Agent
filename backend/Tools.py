@@ -1,16 +1,24 @@
 import os
 import subprocess
 
+base = 'workspace'
+
+os.makedirs(base, exist_ok=True)
+
+def full_path(filepath):
+    return os.path.join(base, filepath.lstrip("/"))
+
 def read_file(filepath):
     try:
-        with open(filepath, 'r') as f:
+        with open(full_path(filepath), 'r') as f:
             return f.read()
     except FileNotFoundError:
         return "File Path you requested was not found."
 
 def write_file(filepath, content):
+    os.makedirs(os.path.dirname(full_path(filepath)), exist_ok=True)
     try:
-        with open(filepath, 'w', encoding = 'utf-8') as f:
+        with open(full_path(filepath), 'w', encoding = 'utf-8') as f:
             f.write(content)
     except FileNotFoundError:
         return "File Path you requested was not found."
@@ -20,6 +28,7 @@ def run_command(command):
         result = subprocess.run(
             command,
             shell=True,
+            cwd = base,
             capture_output=True,
             text=True,
             timeout=180
@@ -42,5 +51,5 @@ def safe_run_command(command):
     return run_command(command)
 
 def make_file(file_name):
-    with open(file_name, "w") as f:
+    with open(full_path(file_name), "w") as f:
         f.write("")
