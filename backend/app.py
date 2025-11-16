@@ -5,6 +5,7 @@ import time
 import os
 import shutil
 from backend import db
+import threading
 
 backend = os.path.dirname(os.path.abspath(__file__))
 root = os.path.abspath(os.path.join(backend, ".."))
@@ -48,6 +49,7 @@ def receive_prompt():
             shutil.rmtree(workspace)
             os.mkdir(workspace)
     Brain.execute(prompt, token = token)
+    threading.Thread(target=Brain.execute, args=(prompt,), kwargs={'token': token}).start()
     return '', 200
 
 @app.route("/api/send")
