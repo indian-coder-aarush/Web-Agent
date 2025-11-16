@@ -12,6 +12,8 @@ build = os.path.join(root, "frontend", "build")
 
 os.makedirs(workspace,exist_ok = True)
 
+token = None
+
 app = flask.Flask(__name__,static_folder=build, static_url_path="/")
 flask_cors.CORS(app)
 app.config['SECRET_KEY'] = 'secret!'
@@ -24,6 +26,7 @@ def index():
 def receive_prompt():
     data = flask.request.get_json()
     prompt = data.get("prompt",'')
+    token = data.get("token")
     if prompt == 'clear!!!000':
         Brain.messages = Brain.messages[0:1]
         Brain.AI_messages = []
@@ -32,10 +35,6 @@ def receive_prompt():
             os.mkdir(workspace)
     Brain.execute(prompt)
     return '', 200
-
-@app.route("/api/give-response")
-def give_response():
-    return flask.jsonify({"hello":"world"})
 
 @app.route("/api/send")
 def live():
