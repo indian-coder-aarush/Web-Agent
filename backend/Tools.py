@@ -1,6 +1,6 @@
 import os
 import subprocess
-import db
+from backend import db
 
 backend = os.path.dirname(os.path.abspath(__file__))
 root = os.path.abspath(os.path.join(backend, ".."))
