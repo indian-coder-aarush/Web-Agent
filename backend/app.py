@@ -38,7 +38,7 @@ def index():
 def receive_prompt():
     data = flask.request.get_json()
     prompt = data.get("prompt",'')
-    token = data.get("token")
+    token = data.get("user_id")
     db.get_or_make_user(token)
     if prompt == 'clear!!!000':
         Brain.messages = Brain.messages[0:1]
