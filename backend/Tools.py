@@ -1,5 +1,6 @@
 import os
 import subprocess
+import db
 
 backend = os.path.dirname(os.path.abspath(__file__))
 root = os.path.abspath(os.path.join(backend, ".."))
@@ -17,8 +18,9 @@ def read_file(filepath):
     except FileNotFoundError:
         return "File Path you requested was not found."
 
-def write_file(filepath, content):
+def write_file(filepath, content, token):
     os.makedirs(os.path.dirname(full_path(filepath)), exist_ok=True)
+    db.save_file(token, filepath, content)
     try:
         with open(full_path(filepath), 'w', encoding = 'utf-8') as f:
             f.write(content)

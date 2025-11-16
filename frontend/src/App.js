@@ -58,7 +58,8 @@ function App() {
         <>
             <button onClick={() => {setPrompt('clear!!!!000');
                                           send_prompt();
-                                          setPrompt('');}}>
+                                          setPrompt('');
+                                          setMessages([]);}}>
                 Clear
             </button>
             <button onClick={()=>window.open('/preview/','_blank')}>

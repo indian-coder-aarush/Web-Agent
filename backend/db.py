@@ -1,6 +1,5 @@
 import sqlalchemy
 import os
-import shutil
 
 DB_PATH = os.path.join(os.path.dirname(__file__), "data.db")
 
@@ -22,7 +21,7 @@ class File(Base):
     content = sqlalchemy.Column(sqlalchemy.Text)
     user = sqlalchemy.orm.relationship("User", back_populates="files")
 
-def get_or_create_user(token):
+def get_or_make_user(token):
     db = SessionLocal()
     user = db.query(User).filter_by(token=token).first()
     if not user:
@@ -36,7 +35,7 @@ def save_file(token, filepath, content):
     db = SessionLocal()
     user = db.query(User).filter_by(token=token).first()
     if not user:
-        user = get_or_create_user(token)
+        user = get_or_make_user(token)
 
     file = db.query(File).filter_by(user_id=user.id, filepath=filepath).first()
     if file:

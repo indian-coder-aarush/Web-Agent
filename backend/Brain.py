@@ -64,7 +64,7 @@ def isJSON(response):
         return False
 
 
-def execute(prompt):
+def execute(prompt, token = None):
     terminate = False
     messages.append({"role":"user", "content": prompt})
     model_response = model.generate_content(dicts_to_prompt(messages))
@@ -93,7 +93,7 @@ def execute(prompt):
         elif response["tool_used"] == "write_file":
             AI_messages.append("writing code in file " + response["file_address"] +
                                                  "\ndata: reason: "  + response["reason"] )
-            Tools.write_file(response["file_address"], response["content"])
+            Tools.write_file(response["file_address"], response["content"], token)
             messages.append({
                 "role": "system",
                 "content": f"File '{response['file_address']}' has been successfully written. Do not rewrite it again unless there is a major error. Check if other files are needed or terminate."
