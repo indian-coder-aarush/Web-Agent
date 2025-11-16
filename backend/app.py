@@ -40,7 +40,7 @@ def receive_prompt():
     prompt = data.get("prompt",'')
     token = data.get("user_id")
     db.get_or_make_user(token)
-    if prompt == 'clear!!!000':
+    if prompt == 'clear!!!!000':
         Brain.messages = Brain.messages[0:1]
         Brain.AI_messages = []
         if os.path.exists(workspace):
