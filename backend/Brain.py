@@ -69,6 +69,7 @@ def execute(prompt, token = None):
     messages.append({"role":"user", "content": prompt})
     model_response = model.generate_content(dicts_to_prompt(messages))
     while not terminate:
+        print(messages[-1])
         response_text = model_response.text if hasattr(model_response, "text") else \
         model_response.candidates[0].content.parts[0].text
         while not isJSON(response_text):
