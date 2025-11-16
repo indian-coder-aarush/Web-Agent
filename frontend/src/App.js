@@ -4,7 +4,7 @@ function App() {
 
     const API_BASE =
         process.env.NODE_ENV === "production"
-            ? "https://Web-Agent.onrender.com"
+            ? "https://web-agent-fs1u.onrender.com"
             : "http://127.0.0.1:1235";
 
     if (!localStorage.getItem("token")) {

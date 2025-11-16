@@ -69,7 +69,7 @@ def preview_index():
 
 @app.route("/preview/<path:path>")
 def preview_files(path):
-    token = flask.request.args.get("token")
+    token = flask.request.args.get("user_id")
     rebuild_workspace(token)
     return flask.send_from_directory(workspace, path)
 
