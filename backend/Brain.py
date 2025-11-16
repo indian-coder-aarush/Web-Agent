@@ -79,23 +79,6 @@ def execute(prompt):
         messages.append(response)
         if response["tool_used"] == "Terminate":
             terminate = True
-            """
-            messages.append({'role':'system','content':'Now run a command to show the website to the user. run a command such that'
-                                                       ' the website will automatically be opened in the browser.'})
-            model_response = model.generate_content(dicts_to_prompt(messages))
-            response_text = model_response.text if hasattr(model_response, "text") else \
-            model_response.candidates[0].content.parts[0].text
-            while not isJSON(response_text):
-                model_response = model.generate_content(dicts_to_prompt(messages))
-                response_text = model_response.text if hasattr(model_response, 'text') else \
-                model_response.condidates[0].content.parts[0].text
-            response = ast.literal_eval(response_text)
-            messages.append(response)
-            command = response["content"]
-            output = Tools.safe_run_command(command)
-            print(messages[-1])
-            break
-            """
         elif response["tool_used"] == "read_file":
             AI_messages.append("Reading File "+ response["file_address"]
                                              +"\ndata: reason: "+response["reason"])

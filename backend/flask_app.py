@@ -3,10 +3,16 @@ import flask_cors
 import Brain
 import time
 import os
+import shutil
 
-os.makedirs("../workspace",exist_ok = True)
+backend = os.path.dirname(os.path.abspath(__file__))
+root = os.path.abspath(os.path.join(backend, ".."))
+workspace = os.path.join(root, "workspace")
+build = os.path.join(root, "frontend", "build")
 
-app = flask.Flask(__name__,static_folder="../frontend/build", static_url_path="/")
+os.makedirs(workspace,exist_ok = True)
+
+app = flask.Flask(__name__,static_folder=build, static_url_path="/")
 flask_cors.CORS(app)
 app.config['SECRET_KEY'] = 'secret!'
 
@@ -18,6 +24,12 @@ def index():
 def receive_prompt():
     data = flask.request.get_json()
     prompt = data.get("prompt",'')
+    if prompt == 'clear!!!000':
+        Brain.messages = Brain.messages[0:1]
+        Brain.AI_messages = []
+        if os.path.exists(workspace):
+            shutil.rmtree(workspace)
+            os.mkdir(workspace)
     Brain.execute(prompt)
     return '', 200
 
@@ -39,11 +51,11 @@ def live():
 
 @app.route("/preview/")
 def preview_index():
-    return flask.send_from_directory("../workspace", "index.html")
+    return flask.send_from_directory(workspace, "index.html")
 
 @app.route("/preview/<path:path>")
 def preview_files(path):
-    return flask.send_from_directory("../workspace", path)
+    return flask.send_from_directory(workspace, path)
 
 if __name__ == "__main__":
     app.run(debug=True, port=1235)

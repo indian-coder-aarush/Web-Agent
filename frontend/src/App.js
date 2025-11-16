@@ -2,6 +2,10 @@ import react, {useState, useEffect} from 'react';
 
 function App() {
 
+    if (!localStorage.getItem("token")) {
+        localStorage.setItem("token", crypto.randomUUID());
+    }
+
     const [messages, setMessages] = useState([]);
     const [choice, setChoice] = useState('');
     const [Prompt,setPrompt] = useState('');
@@ -40,7 +44,7 @@ function App() {
         await fetch("http://127.0.0.1:1235/api/receive-prompt", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ prompt: Prompt + 'Make the app using ' + choice })
+            body: JSON.stringify({ prompt: Prompt + 'Make the app using ' + choice, user_id: localStorage.getItem("token") })
         });
     }
 
@@ -52,6 +56,11 @@ function App() {
 
     return (
         <>
+            <button onClick={() => {setPrompt('clear!!!!000');
+                                          send_prompt();
+                                          setPrompt('');}}>
+                Clear
+            </button>
             <button onClick={()=>window.open('/preview/','_blank')}>
                 Preview Website
             </button>

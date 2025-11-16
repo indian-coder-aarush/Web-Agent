@@ -1,7 +1,9 @@
 import os
 import subprocess
 
-base = '../workspace'
+backend = os.path.dirname(os.path.abspath(__file__))
+root = os.path.abspath(os.path.join(backend, ".."))
+base = os.path.join(root, "workspace")
 
 os.makedirs(base, exist_ok=True)
 
