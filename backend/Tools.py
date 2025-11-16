@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-base = 'workspace'
+base = '../workspace'
 
 os.makedirs(base, exist_ok=True)
 

@@ -32,13 +32,14 @@ messages = [
                                     "- Example:"
                                     "{"
                                         '"tool_used": "write_file",'
-                                        '"file_address": "\script.js",'
+                                        '"file_address": "\\script.js",'
                                         '"content": "document.addEventListener(\"DOMContentLoaded\", () => { ... });"'
                                     "}"
                                     "- NEVER write files repeatedly once they exist and are complete. "
                                   "You can see the completed files in the memory\n"
                                     "- If you are unsure or have no next step, TERMINATE."
                                     "- If the user asks to edit anything, first READ the file then edit it."
+                                    "- dont refer the files as /index.html, etc. refer them by there names only like index.html."
                                   "give only the format i mentioned to u amd mo things like ```json also. in content while writing code "
                                   "remember to terminate after your project is done and after writing every line of code "
                                   "go to a newline. Also DONT send two responses at once"
@@ -78,6 +79,7 @@ def execute(prompt):
         messages.append(response)
         if response["tool_used"] == "Terminate":
             terminate = True
+            """
             messages.append({'role':'system','content':'Now run a command to show the website to the user. run a command such that'
                                                        ' the website will automatically be opened in the browser.'})
             model_response = model.generate_content(dicts_to_prompt(messages))
@@ -93,6 +95,7 @@ def execute(prompt):
             output = Tools.safe_run_command(command)
             print(messages[-1])
             break
+            """
         elif response["tool_used"] == "read_file":
             AI_messages.append("Reading File "+ response["file_address"]
                                              +"\ndata: reason: "+response["reason"])
