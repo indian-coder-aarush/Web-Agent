@@ -24,11 +24,11 @@ def rebuild_workspace(user_token):
         shutil.rmtree(workspace)
     os.makedirs(workspace, exist_ok=True)
     db_user = db.get_or_make_user(user_token)
-    for file in db_user.files:
-        file_path = os.path.join(workspace, file.filepath)
+    for file in db_user:
+        file_path = os.path.join(workspace, file['filepath'])
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
         with open(file_path, "w", encoding="utf-8") as f:
-            f.write(file.content)
+            f.write(file['content'])
 
 @app.route("/")
 def index():
@@ -74,4 +74,4 @@ def preview_files(path):
     return flask.send_from_directory(workspace, path)
 
 if __name__ == "__main__":
-    app.run(debug=True, port=1235)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))

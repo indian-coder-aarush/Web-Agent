@@ -2,6 +2,11 @@ import react, {useState, useEffect} from 'react';
 
 function App() {
 
+    const API_BASE =
+        process.env.NODE_ENV === "production"
+            ? "https://web-agent.onrender.com"
+            : "http://127.0.0.1:1235";
+
     if (!localStorage.getItem("token")) {
         localStorage.setItem("token", crypto.randomUUID());
     }
@@ -23,7 +28,7 @@ function App() {
     }
 
     useEffect(() => {
-        const source = new EventSource("http://127.0.0.1:1235/api/send");
+        const source = new EventSource(`${API_BASE}/api/send`);
 
         source.onmessage = (event) => {
             console.log("Received:", event.data);
@@ -41,7 +46,7 @@ function App() {
     }, []);
 
     async function send_prompt(){
-        await fetch("http://127.0.0.1:1235/api/receive-prompt", {
+        await fetch(`${API_BASE}/api/receive-prompt`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ prompt: Prompt + 'Make the app using ' + choice, user_id: localStorage.getItem("token") })
