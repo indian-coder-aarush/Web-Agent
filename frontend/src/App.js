@@ -40,7 +40,7 @@ function App() {
         await fetch("http://127.0.0.1:1235/api/receive-prompt", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ prompt: Prompt })
+            body: JSON.stringify({ prompt: Prompt + 'Make the app using ' + choice })
         });
     }
 
@@ -52,6 +52,9 @@ function App() {
 
     return (
         <>
+            <button onClick={()=>window.open('/preview/','_blank')}>
+                Preview Website
+            </button>
             <div className = 'messages'>
             {messages.map((message) => {return (
                 <div className = {message.Role}>{message.Message}</div>
