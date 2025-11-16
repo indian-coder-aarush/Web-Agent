@@ -1,10 +1,10 @@
 import flask
 import flask_cors
-import Brain
+from backend import Brain
 import time
 import os
 import shutil
-import db
+from backend import db
 
 backend = os.path.dirname(os.path.abspath(__file__))
 root = os.path.abspath(os.path.join(backend, ".."))
