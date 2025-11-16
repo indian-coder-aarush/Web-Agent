@@ -34,6 +34,7 @@ def rebuild_workspace(user_token):
 def index():
     return flask.send_from_directory(app.static_folder, "index.html")
 
+
 @app.route("/api/receive-prompt", methods=["POST"])
 def receive_prompt():
     data = flask.request.get_json()
